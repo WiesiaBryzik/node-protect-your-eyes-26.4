@@ -8,12 +8,12 @@ import { render } from 'react-dom';
 //     return `${mm}:${ss}`;
 //   };
 
-  const formatTime = time => {
-    let mm = Math.floor(time / 60);
-    let ss = time % 60;
-  
-    return ((mm < 10 ? '0' + mm : mm) + ':' + (ss < 10 ? '0' + ss : ss));
-  };
+const formatTime = time => {
+  let mm = Math.floor(time / 60);
+  let ss = time % 60;
+
+  return ((mm < 10 ? '0' + mm : mm) + ':' + (ss < 10 ? '0' + ss : ss));
+};
 
 
 class App extends React.Component {
@@ -24,7 +24,23 @@ class App extends React.Component {
     timer: null
   };
 
-  step = () => { };
+  step = () => {
+    this.setState({
+      time: this.state.time - 1,
+    });
+
+    if (this.state.time === 0 && this.state.status === 'work') {
+      this.setState({
+        status: 'rest',
+        time: 20
+      })
+    } else if (this.state.time === 0 && this.state.status === 'rest') {
+      this.setState({
+        status: 'work',
+        time: 1200
+      })
+    }
+  };
 
   startTimer = () => {
 
