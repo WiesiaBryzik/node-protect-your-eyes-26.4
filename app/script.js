@@ -15,7 +15,6 @@ const formatTime = time => {
   return ((mm < 10 ? '0' + mm : mm) + ':' + (ss < 10 ? '0' + ss : ss));
 };
 
-
 class App extends React.Component {
 
   state = {
@@ -24,21 +23,30 @@ class App extends React.Component {
     timer: null
   };
 
+  playBell = () => {
+    const bell = new Audio('./sounds/bell.wav');
+    bell.play();
+  };
+
   step = () => {
     this.setState({
       time: this.state.time - 1,
     });
 
     if (this.state.time === 0 && this.state.status === 'work') {
+     
       this.setState({
         status: 'rest',
-        time: 20
+        time: 20,
       })
+      this.playBell();
+
     } else if (this.state.time === 0 && this.state.status === 'rest') {
       this.setState({
         status: 'work',
         time: 1200
       })
+      this.playBell();
     }
   };
 
@@ -63,7 +71,6 @@ class App extends React.Component {
   closeApp = () => {
     window.close() 
   };
-
 
   render() {
 
