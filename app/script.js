@@ -1,17 +1,43 @@
 import React from 'react';
 import { render } from 'react-dom';
 
+// const formatTime = time => {
+//     let mm = Math.floor(time / 60).padStart(2, '0');
+//     let ss = (time % 60).padStart(2, '0')
+
+//     return `${mm}:${ss}`;
+//   };
+
+  const formatTime = time => {
+    let mm = Math.floor(time / 60);
+    let ss = time % 60;
+  
+    return ((mm < 10 ? '0' + mm : mm) + ':' + (ss < 10 ? '0' + ss : ss));
+  };
+
+
 class App extends React.Component {
 
   state = {
     status: 'off',
-    time: 1200,
+    time: 3000,
     timer: null
+  };
+
+  step = () => { };
+
+  startTimer = () => {
+
+    this.setState({
+      timer: setInterval(this.step, 1000),
+      time: 1200,
+      status: 'work'
+    });
   };
 
   render() {
 
-    const { status } = this.state;
+    const { status, time } = this.state;
 
     return (
       <div>
@@ -24,8 +50,8 @@ class App extends React.Component {
         }
         {(status === 'work') && <img src="./images/work.png" />}
         {(status === 'rest') && <img src="./images/rest.png" />}
-        {(status !== 'off') && <div className="timer">18:23</div>}
-        {(status === 'off') && <button className="btn">Start</button>}
+        {(status !== 'off') && <div className="timer">{formatTime(time)}</div>}
+        {(status === 'off') && <button className="btn" onClick={this.startTimer}>Start</button>}
         {(status !== 'off') && <button className="btn">Stop</button>}
         <button className="btn btn-close">X</button>
       </div>
